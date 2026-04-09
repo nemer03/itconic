@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ITCONIC - Pioneering the future through AI-powered technology solutions. Web, Mobile, Cloud, and AI services." />
+  <title>ITCONIC | Future-Ready Tech Solutions</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%238b5cf6'/><text y='.9em' font-size='70' x='15'>IT</text></svg>" />
+  <style>
+    /* ---- HOME PAGE SPECIFIC ---- */
+    .hero-content { max-width: 650px; }
+
+    /* Floating UI card elements */
+    .hero-float-cards {
+      position: relative;
+      width: 100%;
+      height: 480px;
+    }
+
+    .float-card {
+      position: absolute;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 18px 22px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .float-card-1 {
+      top: 20px; right: 0;
+      width: 220px;
+      animation-delay: 0s;
+    }
+
+    .float-card-2 {
+      top: 180px; right: 40px;
+      width: 200px;
+      animation-delay: 2s;
+    }
+
+    .float-card-3 {
+      bottom: 40px; right: 80px;
+      width: 190px;
+      animation-delay: 4s;
+    }
+
+    .float-card-4 {
+      top: 100px; right: 220px;
+      width: 160px;
+      animation-delay: 1s;
+    }
+
+    .float-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .float-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .float-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .float-metric {
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .float-metric-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .float-icon { font-size: 28px; margin-bottom: 8px; }
+
+    /* Services section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-purple);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 20px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .service-link:hover { gap: 10px; }
+
+    /* Why choose us */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .why-features { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Portfolio section preview */
+    .portfolio-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .preview-card {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+
+    .preview-card-bg {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      transition: transform 0.4s ease;
+    }
+
+    .preview-card:hover .preview-card-bg { transform: scale(1.08); }
+
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(3,7,18,0.9), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .preview-card:hover .preview-overlay { opacity: 1; }
+
+    /* Testimonials slider */
+    .testimonials-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* News section */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* Clients / Tech logos marquee */
+    .marquee-wrapper {
+      overflow: hidden;
+      position: relative;
+      padding: 40px 0;
+    }
+
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 150px;
+      z-index: 2;
+    }
+
+    .marquee-wrapper::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg-primary), transparent);
+    }
+
+    .marquee-wrapper::after {
+      right: 0;
+      background: linear-gradient(-90deg, var(--bg-primary), transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 32px;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .marquee-item:hover {
+      color: var(--text-primary);
+      border-color: var(--border-glow);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 900px) {
+      .services-grid, .testimonials-track, .news-grid { grid-template-columns: 1fr; }
+      .portfolio-preview-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-preview-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">IT</div>
+      <span class="nav-logo-text">ITCONIC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu">
+    <a href="index.html" class="active">Home</a>
+    <a href="services.html">Services</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="news.html">News</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <canvas id="particles" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-grid"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Next-Generation Technology Partner
+      </div>
+
+      <h1>
+        Building the<br />
+        <span class="gradient-text">Future</span> With<br />
+        <span id="typed-text" data-words="Intelligence,Innovation,Precision,Vision" style="color:#a78bfa;"></span><span style="color:#8b5cf6;animation:pulse 1s ease-in-out infinite;display:inline-block;">|</span>
+      </h1>
+
+      <p>
+        We craft powerful digital experiences — from AI-driven platforms to scalable cloud systems —
+        empowering businesses to lead in the age of intelligent technology.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="services.html" class="btn btn-primary">
+          <span>Explore Services</span>
+          <span>→</span>
+        </a>
+        <a href="contact.html" class="btn btn-secondary">
+          <span>Start a Project</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Cards Visual -->
+    <div class="hero-visual">
+      <div class="hero-float-cards">
+        <div class="float-card float-card-1">
+          <div class="float-card-header">
+            <div class="float-dot"></div>
+            <span class="float-card-label">Projects Delivered</span>
+          </div>
+          <div class="float-metric">340+</div>
+          <div class="float-metric-sub">↑ 28% this year</div>
+        </div>
+        <div class="float-card float-card-2">
+          <div class="float-card-header">
+            <div class="float-dot" style="background:#06b6d4;"></div>
+            <span class="float-card-label">Client Satisfaction</span>
+          </div>
+          <div class="float-metric" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">98%</div>
+          <div class="float-metric-sub">Based on 180+ reviews</div>
+        </div>
+        <div class="float-card float-card-3">
+          <div class="float-icon">🤖</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;">AI Solutions Active</div>
+          <div class="float-metric-sub" style="font-size:12px;">Running 24 live AI models</div>
+        </div>
+        <div class="float-card float-card-4">
+          <div class="float-icon">⚡</div>
+          <div class="float-metric" style="font-size:20px;background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">10ms</div>
+          <div class="float-metric-sub">Avg. API response</div>
+        </div>
+
+        <!-- Orbit Visual -->
+        <div style="position:absolute;top:50%;left:0;transform:translateY(-50%);">
+          <div class="tech-visual" style="width:200px;height:200px;">
+            <div class="tech-ring tech-ring-1" style="width:180px;height:180px;"></div>
+            <div class="tech-ring tech-ring-2" style="width:130px;height:130px;"></div>
+            <div class="tech-ring tech-ring-3" style="width:80px;height:80px;"></div>
+            <div class="tech-core" style="width:48px;height:48px;font-size:20px;">IT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS MARQUEE -->
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      <div class="marquee-item">🏢 TechCorp</div>
+      <div class="marquee-item">🚀 StartupX</div>
+      <div class="marquee-item">🌐 GlobalNet</div>
+      <div class="marquee-item">💡 InnovateCo</div>
+      <div class="marquee-item">🔒 SecureBase</div>
+      <div class="marquee-item">📊 DataFlow</div>
+      <div class="marquee-item">☁️ CloudPeak</div>
+      <div class="marquee-item">🤖 AIFactory</div>
+      <div class="marquee-item">📱 MobileFirst</div>
+      <div class="marquee-item">🎯 TargetSys</div>
+      <!-- Duplicate for infinite loop -->
+      <div class="marquee-item">🏢 TechCorp</div>
+      <div class="marquee-item">🚀 StartupX</div>
+      <div class="marquee-item">🌐 GlobalNet</div>
+      <div class="marquee-item">💡 InnovateCo</div>
+      <div class="marquee-item">🔒 SecureBase</div>
+      <div class="marquee-item">📊 DataFlow</div>
+      <div class="marquee-item">☁️ CloudPeak</div>
+      <div class="marquee-item">🤖 AIFactory</div>
+      <div class="marquee-item">📱 MobileFirst</div>
+      <div class="marquee-item">🎯 TargetSys</div>
+    </div>
+  </div>
+
+  <!-- SERVICES PREVIEW -->
+  <section>
+    <div style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">What We Build</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;">
+        <h2 class="section-title animate-on-scroll" style="max-width:500px;">
+          Services Built for the <span class="gradient-text">Digital Age</span>
+        </h2>
+        <a href="services.html" class="btn btn-outline animate-on-scroll">View All Services →</a>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card animate-on-scroll">
+        <div class="icon-box icon-box-purple">🌐</div>
+        <div class="service-title">Web Development</div>
+        <p class="service-desc">High-performance web apps built with modern frameworks. Scalable, secure, and lightning-fast.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+      <div class="service-card animate-on-scroll delay-1">
+        <div class="icon-box icon-box-blue">📱</div>
+        <div class="service-title">Mobile Apps</div>
+        <p class="service-desc">Native and cross-platform mobile experiences for iOS and Android that users love.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+      <div class="service-card animate-on-scroll delay-2">
+        <div class="icon-box icon-box-cyan">🤖</div>
+        <div class="service-title">AI Solutions</div>
+        <p class="service-desc">Custom AI integrations — NLP, computer vision, predictive analytics, and LLM-powered tools.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+      <div class="service-card animate-on-scroll delay-1">
+        <div class="icon-box icon-box-green">☁️</div>
+        <div class="service-title">Cloud Services</div>
+        <p class="service-desc">AWS, Azure & GCP architecture, DevOps pipelines, and managed cloud infrastructure.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+      <div class="service-card animate-on-scroll delay-2">
+        <div class="icon-box icon-box-pink">🎨</div>
+        <div class="service-title">UI/UX Design</div>
+        <p class="service-desc">User-centric design systems, wireframes, prototypes, and polished visual identities.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+      <div class="service-card animate-on-scroll delay-3">
+        <div class="icon-box icon-box-orange">🔒</div>
+        <div class="service-title">Cybersecurity</div>
+        <p class="service-desc">Penetration testing, security audits, and end-to-end encryption for your digital assets.</p>
+        <a href="services.html" class="service-link">Explore <span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WHY CHOOSE US -->
+  <section>
+    <div class="why-grid">
+      <div>
+        <div class="section-label animate-on-scroll">Why ITCONIC</div>
+        <h2 class="section-title animate-on-scroll">
+          We Don't Just Deliver — We <span class="gradient-text">Exceed</span>
+        </h2>
+        <p class="section-subtitle animate-on-scroll" style="margin-bottom:40px;">
+          Our team of senior engineers, designers, and AI specialists bring decade-long expertise to every project.
+        </p>
+        <a href="about.html" class="btn btn-primary animate-on-scroll">Meet the Team →</a>
+      </div>
+      <div class="why-features">
+        <div class="feature-item animate-on-scroll">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <h4>Blazing Performance</h4>
+            <p>Sub-100ms load times with optimized code and CDN delivery worldwide.</p>
+          </div>
+        </div>
+        <div class="feature-item animate-on-scroll delay-1">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-text">
+            <h4>AI-First Approach</h4>
+            <p>Every solution is designed with intelligent automation at its core.</p>
+          </div>
+        </div>
+        <div class="feature-item animate-on-scroll delay-2">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-text">
+            <h4>Enterprise Security</h4>
+            <p>SOC2-compliant infrastructure with end-to-end encryption by default.</p>
+          </div>
+        </div>
+        <div class="feature-item animate-on-scroll delay-3">
+          <div class="feature-icon">📈</div>
+          <div class="feature-text">
+            <h4>Infinitely Scalable</h4>
+            <p>Cloud-native architecture that grows seamlessly with your business.</p>
+          </div>
+        </div>
+        <div class="feature-item animate-on-scroll delay-4">
+          <div class="feature-icon">🤝</div>
+          <div class="feature-text">
+            <h4>Dedicated Support</h4>
+            <p>24/7 technical support with SLA guarantees and proactive monitoring.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section style="padding:60px 5%;">
+    <div class="stats-grid animate-on-scroll">
+      <div class="stat-item">
+        <div class="stat-number" data-target="10" data-suffix="+">0+</div>
+        <div class="stat-label">Years of Excellence</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="340" data-suffix="+">0+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="98" data-suffix="%">0%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="50" data-suffix="+">0+</div>
+        <div class="stat-label">Expert Engineers</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PORTFOLIO PREVIEW -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Our Work</div>
+      <h2 class="section-title animate-on-scroll">Projects We're Proud Of</h2>
+      <p class="section-subtitle animate-on-scroll">A glimpse into what we've built for clients worldwide.</p>
+    </div>
+
+    <div class="portfolio-preview-grid">
+      <div class="preview-card animate-on-scroll">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#1e1b4b,#312e81);">🛒</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">E-Commerce</div>
+          <div class="portfolio-title">NexaShop Platform</div>
+        </div>
+      </div>
+      <div class="preview-card animate-on-scroll delay-1">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#0c1445,#1e3a5f);">🏥</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">Healthcare AI</div>
+          <div class="portfolio-title">MediScan AI</div>
+        </div>
+      </div>
+      <div class="preview-card animate-on-scroll delay-2">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#1a0533,#3b0764);">📊</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">Analytics</div>
+          <div class="portfolio-title">DataPulse Dashboard</div>
+        </div>
+      </div>
+      <div class="preview-card animate-on-scroll delay-1">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#042f2e,#134e4a);">📱</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">Mobile App</div>
+          <div class="portfolio-title">FitTrack Pro</div>
+        </div>
+      </div>
+      <div class="preview-card animate-on-scroll delay-2">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#1c1917,#44403c);">🤖</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">AI Platform</div>
+          <div class="portfolio-title">ChatCore Enterprise</div>
+        </div>
+      </div>
+      <div class="preview-card animate-on-scroll delay-3">
+        <div class="preview-card-bg" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">☁️</div>
+        <div class="preview-overlay">
+          <div class="portfolio-tag">Cloud</div>
+          <div class="portfolio-title">CloudVault SaaS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top:48px;">
+      <a href="portfolio.html" class="btn btn-secondary">View Full Portfolio →</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Client Love</div>
+      <h2 class="section-title animate-on-scroll">What Our Clients Say</h2>
+    </div>
+
+    <div class="testimonials-track">
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "ITCONIC transformed our entire digital infrastructure. Their AI solution reduced our operational costs by 40% in the first quarter. Absolutely world-class team."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JM</div>
+          <div>
+            <div class="testimonial-name">James Morrison</div>
+            <div class="testimonial-role">CTO, TechCorp Global</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "From day one, the ITCONIC team understood our vision perfectly. They delivered our mobile app ahead of schedule and it's been our top revenue channel ever since."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">SR</div>
+          <div>
+            <div class="testimonial-name">Sarah Rahman</div>
+            <div class="testimonial-role">CEO, InnovateCo</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">
+          "The cloud migration was seamless and our platform performance improved by 300%. ITCONIC's expertise in AWS architecture is unmatched in the industry."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">AK</div>
+          <div>
+            <div class="testimonial-name">Ahmed Khalil</div>
+            <div class="testimonial-role">Director, CloudPeak Systems</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST NEWS -->
+  <section>
+    <div style="margin-bottom:60px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;">
+      <div>
+        <div class="section-label animate-on-scroll">Latest Updates</div>
+        <h2 class="section-title animate-on-scroll">News & <span class="gradient-text">Insights</span></h2>
+      </div>
+      <a href="news.html" class="btn btn-outline animate-on-scroll">All Articles →</a>
+    </div>
+
+    <div class="news-grid">
+      <div class="blog-card animate-on-scroll">
+        <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#1e1b4b,#312e81);">🤖</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">AI</span>
+          <div class="blog-card-title">How Generative AI is Reshaping Enterprise Software in 2026</div>
+          <p class="blog-card-excerpt">From intelligent automation to real-time decision engines, here's what every CTO needs to know this year.</p>
+          <div class="blog-meta">
+            <span>Apr 5, 2026</span>
+            <a href="news.html" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">Read →</a>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card animate-on-scroll delay-1">
+        <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#042f2e,#065f46);">☁️</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Cloud</span>
+          <div class="blog-card-title">The Rise of Edge Computing: Building for Zero Latency</div>
+          <p class="blog-card-excerpt">Why leading tech companies are moving workloads to the edge and what it means for your architecture.</p>
+          <div class="blog-meta">
+            <span>Mar 28, 2026</span>
+            <a href="news.html" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">Read →</a>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card animate-on-scroll delay-2">
+        <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#1a0533,#4c1d95);">📱</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Mobile</span>
+          <div class="blog-card-title">React Native vs Flutter: The 2026 Developer's Guide</div>
+          <p class="blog-card-excerpt">An honest, technical breakdown of which cross-platform framework wins for your specific use case.</p>
+          <div class="blog-meta">
+            <span>Mar 15, 2026</span>
+            <a href="news.html" style="color:var(--accent-purple);text-decoration:none;font-weight:600;">Read →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="cta-box animate-on-scroll">
+      <div class="section-label" style="justify-content:center;margin-bottom:16px;">
+        <span class="section-label">Ready to Build?</span>
+      </div>
+      <h2 class="section-title" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px;">
+        Turn Your Vision Into <span class="gradient-text">Reality</span>
+      </h2>
+      <p style="color:var(--text-secondary);font-size:16px;margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;font-family:'Inter',sans-serif;line-height:1.7;">
+        Let's discuss your project and see how ITCONIC can help you build something extraordinary.
+      </p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn-primary">Start Your Project</a>
+        <a href="portfolio.html" class="btn btn-secondary">See Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon">IT</div>
+          <span class="nav-logo-text">ITCONIC</span>
+        </a>
+        <p>Pioneering the future through intelligent technology. We build digital products that transform businesses and inspire people.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">gh</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="news.html">Blog & News</a></li>
+          <li><a href="contact.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Web Development</a></li>
+          <li><a href="services.html">Mobile Apps</a></li>
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Cloud Services</a></li>
+          <li><a href="services.html">UI/UX Design</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@itconic.com">hello@itconic.com</a></li>
+          <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+          <li><a href="#">San Francisco, CA</a></li>
+          <li><a href="contact.html">Get in Touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ITCONIC. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

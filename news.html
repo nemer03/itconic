@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ITCONIC Blog - Insights on AI, Cloud, Web Development, and the future of technology." />
+  <title>News & Blog | ITCONIC</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%238b5cf6'/><text y='.9em' font-size='70' x='15'>IT</text></svg>" />
+  <style>
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Featured article */
+    .featured-post {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .featured-post:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .featured-post-image {
+      width: 100%;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-badge-post {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--gradient-primary);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 50px;
+    }
+
+    .featured-post-body { padding: 32px; }
+
+    .featured-post-title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+
+    .featured-post:hover .featured-post-title {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .featured-post-excerpt {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 24px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      flex-wrap: wrap;
+    }
+
+    .post-meta-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .post-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+
+    /* Post grid */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 100px; }
+
+    .sidebar-widget {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    /* Categories */
+    .cat-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .cat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .cat-item:hover {
+      border-color: var(--border-glow);
+      color: var(--text-primary);
+    }
+
+    .cat-count {
+      background: rgba(139,92,246,0.15);
+      color: #a78bfa;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 50px;
+    }
+
+    /* Popular posts */
+    .popular-post {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .popular-post:last-child { border-bottom: none; padding-bottom: 0; }
+    .popular-post:first-child { padding-top: 0; }
+
+    .popular-post:hover .popular-post-title {
+      color: var(--accent-purple);
+    }
+
+    .popular-post-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .popular-post-title {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 4px;
+      transition: var(--transition);
+    }
+
+    .popular-post-date { font-size: 11px; color: var(--text-muted); font-family: 'Inter', sans-serif; }
+
+    /* Newsletter */
+    .newsletter-form { display: flex; flex-direction: column; gap: 12px; }
+
+    .newsletter-input {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .newsletter-input:focus {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+    }
+
+    /* Article view */
+    .article-view {
+      display: none;
+    }
+
+    .article-view.active {
+      display: block;
+    }
+
+    .blog-list.hidden { display: none; }
+
+    .article-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px 0;
+      transition: var(--transition);
+      margin-bottom: 32px;
+      background: none;
+      border: none;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .article-back:hover { color: var(--text-primary); }
+
+    .article-header { margin-bottom: 40px; }
+    .article-title { font-size: clamp(28px,4vw,44px); font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+
+    .article-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--text-secondary);
+    }
+
+    .article-body h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 40px 0 16px;
+    }
+
+    .article-body h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 28px 0 12px;
+    }
+
+    .article-body p { margin-bottom: 20px; }
+
+    .article-body blockquote {
+      border-left: 3px solid var(--accent-purple);
+      padding: 16px 24px;
+      background: rgba(139,92,246,0.05);
+      border-radius: 0 12px 12px 0;
+      margin: 28px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    .article-body ul, .article-body ol {
+      padding-left: 24px;
+      margin-bottom: 20px;
+    }
+
+    .article-body li { margin-bottom: 8px; }
+
+    .article-image {
+      width: 100%;
+      height: 300px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      margin: 28px 0;
+    }
+
+    @media (max-width: 1000px) {
+      .blog-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    @media (max-width: 600px) {
+      .posts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">IT</div>
+      <span class="nav-logo-text">ITCONIC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html" class="active">News</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="news.html" class="active">News</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="page-hero-content">
+      <div class="hero-badge" style="margin:0 auto 24px;width:fit-content;">
+        <span class="hero-badge-dot"></span>
+        Ideas · Insights · Innovation
+      </div>
+      <h1>News & <span class="gradient-text">Blog</span></h1>
+      <p>Stay ahead of the curve with our insights on AI, cloud, and the future of technology.</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>News</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <section>
+    <div class="blog-layout">
+      <!-- MAIN COLUMN -->
+      <div>
+        <!-- Blog list view -->
+        <div class="blog-list" id="blogList">
+          <!-- Featured post -->
+          <div class="featured-post animate-on-scroll" onclick="openArticle('genAI')">
+            <div class="featured-post-image" style="background:linear-gradient(135deg,#1a0533,#312e81);">
+              <span class="featured-badge-post">⭐ Featured</span>
+              🤖
+            </div>
+            <div class="featured-post-body">
+              <span class="blog-tag">AI & Machine Learning</span>
+              <div class="featured-post-title">How Generative AI is Reshaping Enterprise Software in 2026</div>
+              <p class="featured-post-excerpt">
+                Generative AI has moved from buzzword to boardroom imperative. In this deep dive, we explore how the world's leading enterprises are integrating LLMs, image generation, and autonomous agents into their core workflows — and what it means for every CTO's roadmap.
+              </p>
+              <div class="post-meta">
+                <div class="post-meta-author">
+                  <div class="post-avatar">MN</div>
+                  <span>Maya Nour</span>
+                </div>
+                <span>·</span>
+                <span>Apr 5, 2026</span>
+                <span>·</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Posts grid -->
+          <div class="posts-grid">
+            <div class="blog-card animate-on-scroll" onclick="openArticle('edge')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#042f2e,#065f46);">☁️</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">Cloud</span>
+                <div class="blog-card-title">The Rise of Edge Computing: Building for Zero Latency</div>
+                <p class="blog-card-excerpt">Why leading companies are moving workloads to the edge and how to architect for it.</p>
+                <div class="blog-meta">
+                  <span>Mar 28, 2026 · 6 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-card animate-on-scroll delay-1" onclick="openArticle('flutter')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#1a0533,#4c1d95);">📱</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">Mobile</span>
+                <div class="blog-card-title">React Native vs Flutter: The 2026 Developer's Guide</div>
+                <p class="blog-card-excerpt">An honest, technical breakdown of which framework wins for your use case.</p>
+                <div class="blog-meta">
+                  <span>Mar 15, 2026 · 10 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-card animate-on-scroll delay-2" onclick="openArticle('security')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#1c1917,#292524);">🔒</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">Security</span>
+                <div class="blog-card-title">Zero-Trust Architecture: Why Every API Needs It Now</div>
+                <p class="blog-card-excerpt">The shift to zero-trust isn't optional anymore. Here's how to implement it in 2026.</p>
+                <div class="blog-meta">
+                  <span>Feb 22, 2026 · 7 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-card animate-on-scroll delay-3" onclick="openArticle('nextjs')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">⚡</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">Web Dev</span>
+                <div class="blog-card-title">Next.js 16 Is Here: What's Changed and What It Means</div>
+                <p class="blog-card-excerpt">Breaking down every major change in Next.js 16 and how to migrate your projects.</p>
+                <div class="blog-meta">
+                  <span>Feb 10, 2026 · 9 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-card animate-on-scroll" onclick="openArticle('rag')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#1e1b4b,#2d1b69);">🧠</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">AI</span>
+                <div class="blog-card-title">Building Production-Ready RAG Systems: Lessons Learned</div>
+                <p class="blog-card-excerpt">From prototype to production: what we learned deploying RAG for enterprise clients.</p>
+                <div class="blog-meta">
+                  <span>Jan 30, 2026 · 12 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="blog-card animate-on-scroll delay-1" onclick="openArticle('design')">
+              <div class="blog-card-image-placeholder" style="background:linear-gradient(135deg,#2d1344,#4a1942);">🎨</div>
+              <div class="blog-card-body">
+                <span class="blog-tag">Design</span>
+                <div class="blog-card-title">Design Systems in 2026: Building for Scale and Consistency</div>
+                <p class="blog-card-excerpt">How to build a design system that scales from startup to enterprise without breaking.</p>
+                <div class="blog-meta">
+                  <span>Jan 18, 2026 · 8 min</span>
+                  <span style="color:var(--accent-purple);font-weight:600;cursor:pointer;">Read →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article detail view -->
+        <div class="article-view" id="articleView">
+          <button class="article-back" onclick="closeArticle()">← Back to All Articles</button>
+          <div id="articleContent"></div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <!-- Search -->
+        <div class="sidebar-widget animate-on-scroll">
+          <div class="sidebar-title">Search</div>
+          <div style="position:relative;">
+            <input class="newsletter-input" type="text" placeholder="Search articles..." style="width:100%;padding-right:40px;" />
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);">🔍</span>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="sidebar-widget animate-on-scroll">
+          <div class="sidebar-title">Categories</div>
+          <div class="cat-list">
+            <a href="#" class="cat-item">
+              <span>🤖 AI & Machine Learning</span>
+              <span class="cat-count">12</span>
+            </a>
+            <a href="#" class="cat-item">
+              <span>☁️ Cloud & DevOps</span>
+              <span class="cat-count">8</span>
+            </a>
+            <a href="#" class="cat-item">
+              <span>📱 Mobile Development</span>
+              <span class="cat-count">10</span>
+            </a>
+            <a href="#" class="cat-item">
+              <span>🌐 Web Development</span>
+              <span class="cat-count">15</span>
+            </a>
+            <a href="#" class="cat-item">
+              <span>🎨 Design & UX</span>
+              <span class="cat-count">7</span>
+            </a>
+            <a href="#" class="cat-item">
+              <span>🔒 Security</span>
+              <span class="cat-count">5</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Popular posts -->
+        <div class="sidebar-widget animate-on-scroll">
+          <div class="sidebar-title">Popular Articles</div>
+          <div class="popular-post" onclick="openArticle('genAI')">
+            <div class="popular-post-thumb" style="background:linear-gradient(135deg,#1a0533,#312e81);">🤖</div>
+            <div>
+              <div class="popular-post-title">How Generative AI is Reshaping Enterprise Software</div>
+              <div class="popular-post-date">Apr 5, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post" onclick="openArticle('rag')">
+            <div class="popular-post-thumb" style="background:linear-gradient(135deg,#1e1b4b,#2d1b69);">🧠</div>
+            <div>
+              <div class="popular-post-title">Building Production-Ready RAG Systems</div>
+              <div class="popular-post-date">Jan 30, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post" onclick="openArticle('flutter')">
+            <div class="popular-post-thumb" style="background:linear-gradient(135deg,#1a0533,#4c1d95);">📱</div>
+            <div>
+              <div class="popular-post-title">React Native vs Flutter: 2026 Guide</div>
+              <div class="popular-post-date">Mar 15, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="sidebar-widget animate-on-scroll" style="background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(59,130,246,0.08));border-color:rgba(139,92,246,0.2);">
+          <div class="sidebar-title">Newsletter</div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;font-family:'Inter',sans-serif;line-height:1.6;">Get the latest tech insights delivered to your inbox every week.</p>
+          <div class="newsletter-form">
+            <input class="newsletter-input" type="email" placeholder="your@email.com" />
+            <button class="btn btn-primary" style="justify-content:center;" onclick="this.textContent='✓ Subscribed!';this.style.background='linear-gradient(135deg,#10b981,#06b6d4)'">Subscribe →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon">IT</div>
+          <span class="nav-logo-text">ITCONIC</span>
+        </a>
+        <p>Pioneering the future through intelligent technology.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">gh</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="news.html">Blog & News</a></li>
+          <li><a href="contact.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Web Development</a></li>
+          <li><a href="services.html">Mobile Apps</a></li>
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Cloud Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@itconic.com">hello@itconic.com</a></li>
+          <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+          <li><a href="contact.html">Get in Touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ITCONIC. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const articles = {
+      genAI: {
+        emoji: '🤖', bg: 'linear-gradient(135deg,#1a0533,#312e81)',
+        tag: 'AI & Machine Learning', readTime: '8 min read',
+        date: 'April 5, 2026', author: 'Maya Nour',
+        title: 'How Generative AI is Reshaping Enterprise Software in 2026',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#1a0533,#312e81);">🤖</div>
+          <h2>The Enterprise AI Inflection Point</h2>
+          <p>Two years ago, generative AI was a fascinating experiment. Today, it's a boardroom mandate. In 2026, the question is no longer "should we adopt AI?" — it's "how fast can we go deeper?"</p>
+          <p>At ITCONIC, we've helped dozens of enterprise clients navigate this transformation. Here's what we've learned from the frontlines.</p>
+          <blockquote>"The companies winning with AI aren't the ones who moved first. They're the ones who moved strategically." — Maya Nour, Head of AI, ITCONIC</blockquote>
+          <h2>The Three Layers of Enterprise AI Adoption</h2>
+          <h3>Layer 1: Automation at Scale</h3>
+          <p>The first wave of enterprise AI was about automating repetitive tasks — document processing, customer support triaging, data extraction. Companies that started here two years ago are now seeing 30-60% cost reductions in these operational areas.</p>
+          <h3>Layer 2: Augmented Decision-Making</h3>
+          <p>The second layer is where things get interesting. AI models are now embedded in core business workflows — supply chain optimization, financial risk modeling, and product recommendation engines that learn in real time.</p>
+          <h3>Layer 3: Autonomous Agents</h3>
+          <p>This is the frontier. Autonomous AI agents that can research, plan, execute, and iterate on complex multi-step tasks. We're deploying these for enterprise clients today, and the productivity gains are staggering.</p>
+          <h2>What This Means for Your Roadmap</h2>
+          <p>If you're a CTO reading this, your 2026-2027 technology roadmap needs to answer three questions: Where does AI create the most leverage in your business? What data assets do you have (or need) to train effective models? And critically — what's your AI governance strategy?</p>
+          <p>The companies that answer these questions clearly are the ones pulling ahead. The ones that don't risk falling two to three years behind — and in this environment, that gap may be insurmountable.</p>
+          <h2>Key Takeaways</h2>
+          <ul>
+            <li>AI adoption is no longer optional — it's competitive survival</li>
+            <li>Start with high-leverage automation, then move to decision augmentation</li>
+            <li>Autonomous agents are production-ready today for the right use cases</li>
+            <li>Data quality and governance are your most important AI investments</li>
+          </ul>
+          <p>Ready to build your AI strategy? <a href="contact.html" style="color:var(--accent-purple);">Talk to our AI team</a> — we'll help you figure out where to start.</p>
+        `
+      },
+      edge: {
+        emoji: '☁️', bg: 'linear-gradient(135deg,#042f2e,#065f46)',
+        tag: 'Cloud', readTime: '6 min read',
+        date: 'March 28, 2026', author: 'Ravi Patel',
+        title: 'The Rise of Edge Computing: Building for Zero Latency',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#042f2e,#065f46);">☁️</div>
+          <h2>Why the Cloud Isn't Enough Anymore</h2>
+          <p>For a decade, "move to the cloud" was the answer to every infrastructure question. But as applications become more latency-sensitive — real-time AI inference, IoT processing, interactive video — a centralized cloud model is showing its limits.</p>
+          <p>Enter edge computing: processing data closer to where it's generated, reducing round-trips to distant data centers and achieving response times measured in microseconds, not milliseconds.</p>
+          <h2>What Edge Computing Actually Means</h2>
+          <p>Edge computing isn't a single technology — it's an architectural pattern. It ranges from CDN-level edge functions (like Cloudflare Workers) to on-premise edge servers in factories or hospitals, to 5G mobile edge computing nodes managed by telecom operators.</p>
+          <blockquote>"For real-time AI applications, edge isn't a nice-to-have. It's the only architecture that works." — Ravi Patel, Cloud Architect</blockquote>
+          <h2>Key Use Cases Driving Adoption</h2>
+          <ul>
+            <li><strong>Real-time AI inference:</strong> Running ML models on-device or at the edge for sub-10ms decisions</li>
+            <li><strong>Industrial IoT:</strong> Processing sensor data locally to avoid bandwidth costs and latency</li>
+            <li><strong>Video streaming:</strong> Reducing buffering with edge-based transcoding and delivery</li>
+            <li><strong>Autonomous vehicles:</strong> Safety-critical decisions that can't wait for a cloud round-trip</li>
+          </ul>
+          <h2>Getting Started with Edge Architecture</h2>
+          <p>The good news: you don't have to rearchitect everything at once. Start by identifying which parts of your application are most latency-sensitive, and evaluate whether edge-hosted functions could serve those paths. Modern platforms like Cloudflare Workers, AWS Lambda@Edge, and Vercel Edge Functions make this remarkably accessible.</p>
+        `
+      },
+      flutter: {
+        emoji: '📱', bg: 'linear-gradient(135deg,#1a0533,#4c1d95)',
+        tag: 'Mobile Development', readTime: '10 min read',
+        date: 'March 15, 2026', author: 'Lena Kim',
+        title: 'React Native vs Flutter: The 2026 Developer\'s Guide',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#1a0533,#4c1d95);">📱</div>
+          <h2>Still the Question Everyone Asks</h2>
+          <p>Five years into both frameworks' maturity cycles, the React Native vs. Flutter debate rages on. In 2026, both are genuinely production-ready — the question is which one is right for your specific context.</p>
+          <h2>The Short Answer</h2>
+          <p>Choose <strong>Flutter</strong> if: you need pixel-perfect UI consistency, performance is critical, and your team can learn Dart. Choose <strong>React Native</strong> if: your team is already JavaScript-heavy, you need deep native integrations, and you want to share code aggressively with a React web codebase.</p>
+          <blockquote>"Neither framework is universally better. The right choice depends on your team, your users, and your product roadmap." — Lena Kim, Lead Mobile Dev</blockquote>
+          <h2>Flutter in 2026</h2>
+          <p>Flutter's biggest 2026 wins: the Impeller rendering engine is now the default on both iOS and Android, delivering consistently smooth 120fps animations. The Dart tooling has matured dramatically, and the ecosystem now covers virtually every native capability you'd need.</p>
+          <p>The ongoing challenge: Dart remains a niche language, making hiring harder. And while Flutter for Web has improved, it's still not the right choice for SEO-critical web applications.</p>
+          <h2>React Native in 2026</h2>
+          <p>React Native's new architecture (Fabric + JSI) has addressed most of the historical performance concerns. The ability to share business logic with React web apps is a genuine superpower for teams building across platforms.</p>
+          <p>The challenge: the JavaScript bridge, even with JSI improvements, still adds overhead that matters for animation-heavy UIs. And the dependency on the npm ecosystem — with all its instability — remains a real operational concern.</p>
+          <h2>Our Recommendation</h2>
+          <p>At ITCONIC, we've shipped major apps with both. For consumer apps where UI quality is paramount, we lean Flutter. For B2B enterprise apps where JavaScript expertise is abundant and cross-platform code sharing matters, React Native wins. When in doubt, prototype with both for a week before committing.</p>
+        `
+      },
+      security: {
+        emoji: '🔒', bg: 'linear-gradient(135deg,#1c1917,#292524)',
+        tag: 'Security', readTime: '7 min read',
+        date: 'February 22, 2026', author: 'Adam Karim',
+        title: 'Zero-Trust Architecture: Why Every API Needs It Now',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#1c1917,#292524);">🔒</div>
+          <h2>The Perimeter is Dead</h2>
+          <p>The old security model — build walls around your network and trust everything inside — has been dead for years. Every major breach of the past five years has exploited the implicit trust inside networks. Zero-trust is the answer.</p>
+          <p>The principle is simple: never trust, always verify. Every request, from every user and service, must be authenticated and authorized — regardless of where it originates.</p>
+          <h2>Zero-Trust for APIs: The Practical Guide</h2>
+          <h3>1. Strong Identity for Every Request</h3>
+          <p>Every API call must carry strong, cryptographically verified identity. OAuth 2.0 with short-lived JWT tokens is table stakes. For service-to-service calls, mutual TLS (mTLS) should be standard.</p>
+          <h3>2. Least-Privilege Access</h3>
+          <p>Services should only have access to the exact resources they need, for the exact time they need them. Overly permissive IAM roles are one of the most common attack vectors we see in security audits.</p>
+          <h3>3. Continuous Verification</h3>
+          <p>Authorization shouldn't happen only at login. Validate permissions on every request, and revoke access instantly when context changes.</p>
+          <blockquote>"Zero-trust isn't a product you buy. It's an architectural philosophy you build into every system from day one." — Adam Karim, CEO</blockquote>
+          <h2>Getting Started Without Boiling the Ocean</h2>
+          <p>Start with your highest-risk attack surface: external-facing APIs. Implement strong authentication, add rate limiting and anomaly detection, and instrument comprehensive audit logging. Then work inward to your internal service mesh.</p>
+          <p>The investment pays for itself the first time you prevent a breach — or the first time you can answer "who accessed what data, and when?" in an audit.</p>
+        `
+      },
+      nextjs: {
+        emoji: '⚡', bg: 'linear-gradient(135deg,#0f172a,#1e3a5f)',
+        tag: 'Web Development', readTime: '9 min read',
+        date: 'February 10, 2026', author: 'Omar Saleh',
+        title: 'Next.js 16 Is Here: What\'s Changed and What It Means',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">⚡</div>
+          <h2>The Next.js Evolution Continues</h2>
+          <p>Next.js 16 landed last month with a set of changes that — while not as dramatic as the App Router shift in version 13 — represent meaningful improvements for production applications.</p>
+          <h2>What's New</h2>
+          <h3>Turbopack is Now Stable</h3>
+          <p>After years in beta, Turbopack is now the default bundler for production builds. In our benchmarks across three large client codebases, we're seeing 40-60% faster build times. This alone makes the upgrade worth it.</p>
+          <h3>Partial Prerendering (PPR) Goes GA</h3>
+          <p>Partial Prerendering — the ability to serve a static shell instantly while streaming in dynamic content — is now generally available. This is a genuinely new rendering primitive that combines the best of SSG and SSR without the tradeoffs.</p>
+          <h3>Enhanced DevX for Server Components</h3>
+          <p>Server Component debugging has been a pain point since the App Router launched. Version 16 ships improved error overlays, better stack traces, and a new component inspector that makes debugging server-rendered trees far more manageable.</p>
+          <blockquote>"Turbopack going stable is the headline, but PPR going GA is the paradigm shift. It changes how we think about rendering for every new project." — Omar Saleh, Lead Backend Dev</blockquote>
+          <h2>Should You Upgrade?</h2>
+          <p>For greenfield projects: absolutely, start with 16. For existing projects: the upgrade path is smooth — we've migrated five production apps this week without issues. The build time improvements alone justify the hour of testing required.</p>
+          <p>The full migration guide is available on the <a href="#" style="color:var(--accent-purple);">Next.js documentation site</a>. Our team is also available to help with complex migrations if you need support.</p>
+        `
+      },
+      rag: {
+        emoji: '🧠', bg: 'linear-gradient(135deg,#1e1b4b,#2d1b69)',
+        tag: 'AI', readTime: '12 min read',
+        date: 'January 30, 2026', author: 'Maya Nour',
+        title: 'Building Production-Ready RAG Systems: Lessons Learned',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#1e1b4b,#2d1b69);">🧠</div>
+          <h2>RAG in Production: What They Don't Tell You</h2>
+          <p>Retrieval-Augmented Generation (RAG) is the most practical way to give LLMs access to your proprietary data without fine-tuning. Building a prototype in a weekend is easy. Building one that actually works in production is a very different challenge.</p>
+          <p>After deploying RAG systems for a dozen enterprise clients, here are the hard lessons we've learned.</p>
+          <h2>The Chunking Problem</h2>
+          <p>How you split your documents matters more than which embedding model you use. Naive chunking by token count produces garbage retrieval. You need semantically coherent chunks — and for most document types, that means custom chunking logic specific to your content structure.</p>
+          <h2>Hybrid Search Beats Pure Semantic Search</h2>
+          <p>Pure vector similarity search misses exact keyword matches that are often critical. Combining vector search with BM25 keyword search (reciprocal rank fusion works well) consistently outperforms either approach alone in our benchmarks.</p>
+          <blockquote>"The most common mistake we see: teams spend weeks on prompt engineering when the retrieval is fundamentally broken. Fix retrieval first." — Maya Nour</blockquote>
+          <h2>Evaluation is Non-Negotiable</h2>
+          <p>You cannot improve what you don't measure. Every production RAG system needs: retrieval recall metrics (are we finding the right documents?), answer faithfulness metrics (is the LLM sticking to the retrieved context?), and end-to-end quality evaluation on a golden dataset.</p>
+          <h2>The Infrastructure Layer</h2>
+          <ul>
+            <li>Use a purpose-built vector database (Pinecone, Weaviate, or pgvector for lower scale)</li>
+            <li>Implement metadata filtering to scope retrieval by tenant, document type, or date</li>
+            <li>Cache embedding computations — they're expensive at scale</li>
+            <li>Monitor retrieval latency separately from LLM latency</li>
+          </ul>
+          <h2>Summary</h2>
+          <p>RAG is powerful but deceptively complex at production scale. The teams that succeed treat it as an information retrieval problem first and an LLM problem second. Get the retrieval right, measure everything, and iterate systematically.</p>
+        `
+      },
+      design: {
+        emoji: '🎨', bg: 'linear-gradient(135deg,#2d1344,#4a1942)',
+        tag: 'Design & UX', readTime: '8 min read',
+        date: 'January 18, 2026', author: 'James Liu',
+        title: 'Design Systems in 2026: Building for Scale and Consistency',
+        content: `
+          <div class="article-image" style="background:linear-gradient(135deg,#2d1344,#4a1942);">🎨</div>
+          <h2>Why Design Systems Still Matter</h2>
+          <p>In 2026, "design system" has become one of those terms everyone claims to have but few actually implement well. Done right, a design system is the highest-leverage investment a product team can make. Done poorly, it becomes a maintenance burden that slows everyone down.</p>
+          <h2>The Foundation: Design Tokens</h2>
+          <p>Every scalable design system starts with design tokens — the atomic values (colors, typography, spacing, shadows) that flow from your design tool into your code. In 2026, the toolchain around this is finally mature: Figma Variables → Token Studio → Style Dictionary → your CSS or component library of choice.</p>
+          <blockquote>"A design system without design tokens is just a pattern library. Tokens are what make it a living system that designers and engineers share." — James Liu, Head of Design</blockquote>
+          <h2>Component Architecture for Scale</h2>
+          <p>The mistake most teams make: building components that are too specific. A "Primary Button" that only works in one context isn't a design system — it's a stylesheet. Build composable primitives: a Button primitive that accepts variants, sizes, and states, which you then compose into specific use-case buttons.</p>
+          <h2>Documentation as a First-Class Citizen</h2>
+          <p>The most technically excellent design system fails if people don't know how to use it. Invest in documentation: usage guidelines, dos and don'ts, accessibility notes, and code examples. Tools like Storybook and Supernova have made this significantly easier in 2026.</p>
+          <h2>Measuring Success</h2>
+          <p>A design system's success is measurable: track adoption rate across products, time-to-implementation for standard UI patterns, and accessibility audit pass rates. If these metrics aren't improving, something's wrong with the system or its adoption strategy.</p>
+        `
+      }
+    };
+
+    function openArticle(id) {
+      const a = articles[id];
+      if (!a) return;
+
+      document.getElementById('articleContent').innerHTML = `
+        <div class="article-header">
+          <div class="post-meta" style="margin-bottom:16px;">
+            <span class="blog-tag">${a.tag}</span>
+          </div>
+          <h1 class="article-title">${a.title}</h1>
+          <div class="post-meta">
+            <div class="post-meta-author">
+              <div class="post-avatar" style="width:36px;height:36px;font-size:13px;">${a.author.split(' ').map(n=>n[0]).join('')}</div>
+              <span style="font-size:15px;">${a.author}</span>
+            </div>
+            <span>·</span>
+            <span>${a.date}</span>
+            <span>·</span>
+            <span>${a.readTime}</span>
+          </div>
+        </div>
+        <div class="article-body">${a.content}</div>
+        <div style="margin-top:48px;padding-top:48px;border-top:1px solid var(--border);">
+          <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Share this article</div>
+          <div style="display:flex;gap:10px;">
+            <div class="tech-badge" style="cursor:pointer;">𝕏 Twitter</div>
+            <div class="tech-badge" style="cursor:pointer;">in LinkedIn</div>
+            <div class="tech-badge" style="cursor:pointer;">🔗 Copy Link</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('blogList').classList.add('hidden');
+      document.getElementById('articleView').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeArticle() {
+      document.getElementById('blogList').classList.remove('hidden');
+      document.getElementById('articleView').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact ITCONIC - Start your project, get a quote, or just say hello." />
+  <title>Contact Us | ITCONIC</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%238b5cf6'/><text y='.9em' font-size='70' x='15'>IT</text></svg>" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info-section {
+      position: sticky;
+      top: 100px;
+    }
+
+    .contact-info-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+    }
+
+    .form-card-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .form-card-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-row .form-group { margin-bottom: 0; }
+
+    /* Map placeholder */
+    .map-placeholder {
+      width: 100%;
+      height: 240px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139,92,246,0.05), rgba(59,130,246,0.05));
+    }
+
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .map-pin {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 0 20px rgba(139,92,246,0.5);
+      position: relative;
+      z-index: 1;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .map-pin::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: rotate(-45deg) translateY(0); }
+      50% { transform: rotate(-45deg) translateY(-8px); }
+    }
+
+    .map-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Offices */
+    .offices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .office-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .office-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-3px);
+    }
+
+    .office-flag { font-size: 32px; margin-bottom: 12px; }
+    .office-city { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .office-address { font-size: 12px; color: var(--text-muted); line-height: 1.5; font-family: 'Inter', sans-serif; }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item.open { border-color: var(--border-glow); }
+
+    .faq-question {
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      gap: 16px;
+    }
+
+    .faq-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: var(--transition);
+      color: var(--text-muted);
+    }
+
+    .faq-item.open .faq-toggle {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: white;
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-item.open .faq-answer { max-height: 200px; }
+
+    .faq-answer-inner {
+      padding: 0 20px 18px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .form-success-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 30px rgba(16,185,129,0.4);
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-info-section { position: static; }
+      .form-row { grid-template-columns: 1fr; }
+      .offices-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .offices-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">IT</div>
+      <span class="nav-logo-text">ITCONIC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="contact.html" class="nav-cta active">Contact Us</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="news.html">News</a>
+    <a href="contact.html" class="nav-cta active">Contact Us</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero" style="padding-bottom:60px;">
+    <div class="page-hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="page-hero-content">
+      <div class="hero-badge" style="margin:0 auto 24px;width:fit-content;">
+        <span class="hero-badge-dot"></span>
+        We reply within 24 hours
+      </div>
+      <h1>Let's <span class="gradient-text">Connect</span></h1>
+      <p>Tell us about your project. We'll get back to you with a personalized plan.</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Contact</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTACT SECTION -->
+  <section>
+    <div class="contact-layout">
+      <!-- INFO COLUMN -->
+      <div class="contact-info-section">
+        <div class="section-label animate-on-scroll">Get In Touch</div>
+        <h2 class="section-title animate-on-scroll" style="font-size:clamp(28px,3vw,42px);">
+          Start a <span class="gradient-text">Conversation</span>
+        </h2>
+        <p style="color:var(--text-secondary);font-size:15px;line-height:1.8;margin-bottom:36px;font-family:'Inter',sans-serif;" class="animate-on-scroll">
+          Whether you have a fully-formed project idea or just a seed of a concept — we'd love to hear it. Our team will respond within 24 hours with a personalized plan.
+        </p>
+
+        <div class="contact-info-cards animate-on-scroll">
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📧</div>
+            <div>
+              <div class="contact-info-label">Email Us</div>
+              <div class="contact-info-value">hello@itconic.com</div>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📱</div>
+            <div>
+              <div class="contact-info-label">Call Us</div>
+              <div class="contact-info-value">+1 (234) 567-890</div>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📍</div>
+            <div>
+              <div class="contact-info-label">Headquarters</div>
+              <div class="contact-info-value">San Francisco, CA 94105</div>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">🕐</div>
+            <div>
+              <div class="contact-info-label">Working Hours</div>
+              <div class="contact-info-value">Mon – Fri, 9:00 AM – 6:00 PM PST</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        <div class="map-placeholder animate-on-scroll">
+          <div class="map-grid"></div>
+          <div class="map-pin"></div>
+          <div class="map-label">San Francisco, CA · USA</div>
+        </div>
+
+        <!-- Social -->
+        <div style="margin-top:32px;" class="animate-on-scroll">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Follow Us</div>
+          <div style="display:flex;gap:12px;">
+            <a href="#" class="social-link" style="width:44px;height:44px;font-size:18px;">𝕏</a>
+            <a href="#" class="social-link" style="width:44px;height:44px;font-size:18px;">in</a>
+            <a href="#" class="social-link" style="width:44px;height:44px;font-size:18px;">gh</a>
+            <a href="#" class="social-link" style="width:44px;height:44px;font-size:18px;">▶</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM COLUMN -->
+      <div class="animate-on-scroll delay-1">
+        <div class="form-card">
+          <div class="form-card-title">Send Us a Message</div>
+          <p class="form-card-subtitle">Fill out the form and our team will get back to you within 24 hours with a customized response.</p>
+
+          <!-- Form -->
+          <form id="contactForm" class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="John" required />
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Smith" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="john@company.com" required />
+            </div>
+
+            <div class="form-group">
+              <label>Company (Optional)</label>
+              <input type="text" placeholder="Acme Inc." />
+            </div>
+
+            <div class="form-group">
+              <label>Service Interested In</label>
+              <select>
+                <option value="">Select a service...</option>
+                <option>Web Development</option>
+                <option>Mobile App Development</option>
+                <option>AI Solutions</option>
+                <option>Cloud Services</option>
+                <option>UI/UX Design</option>
+                <option>Cybersecurity</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Project Budget</label>
+              <select>
+                <option value="">Select budget range...</option>
+                <option>Under $10,000</option>
+                <option>$10,000 – $50,000</option>
+                <option>$50,000 – $150,000</option>
+                <option>$150,000 – $500,000</option>
+                <option>$500,000+</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Tell Us About Your Project</label>
+              <textarea placeholder="Describe your project, goals, timeline, and any technical requirements..."></textarea>
+            </div>
+
+            <!-- Checkbox -->
+            <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
+              <input type="checkbox" id="privacy" style="margin-top:3px;accent-color:#8b5cf6;" required />
+              <label for="privacy" style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;cursor:pointer;line-height:1.5;">
+                I agree to the <a href="#" style="color:var(--accent-purple);">Privacy Policy</a> and consent to ITCONIC using my data to respond to this inquiry.
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px;">
+              Send Message →
+            </button>
+          </form>
+
+          <!-- Success State -->
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✓</div>
+            <h3 style="font-size:22px;margin-bottom:8px;">Message Sent!</h3>
+            <p style="color:var(--text-secondary);font-family:'Inter',sans-serif;line-height:1.6;margin-bottom:24px;">
+              Thank you for reaching out. Our team will review your project details and get back to you within 24 hours.
+            </p>
+            <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+          </div>
+        </div>
+
+        <!-- Trust signals -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;">
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:6px;">⚡</div>
+            <div style="font-size:12px;font-weight:600;margin-bottom:3px;">Fast Response</div>
+            <div style="font-size:11px;color:var(--text-muted);">Within 24 hours</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:6px;">🔒</div>
+            <div style="font-size:12px;font-weight:600;margin-bottom:3px;">NDA Available</div>
+            <div style="font-size:11px;color:var(--text-muted);">We protect your ideas</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+            <div style="font-size:22px;margin-bottom:6px;">🎁</div>
+            <div style="font-size:12px;font-weight:600;margin-bottom:3px;">Free Consultation</div>
+            <div style="font-size:11px;color:var(--text-muted);">No commitment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- OFFICES -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Our Offices</div>
+      <h2 class="section-title animate-on-scroll">Global <span class="gradient-text">Presence</span></h2>
+    </div>
+
+    <div class="offices-grid">
+      <div class="office-card animate-on-scroll">
+        <div class="office-flag">🇺🇸</div>
+        <div class="office-city">San Francisco</div>
+        <div class="office-address">101 Mission Street, Suite 400<br />San Francisco, CA 94105<br />United States</div>
+      </div>
+      <div class="office-card animate-on-scroll delay-1">
+        <div class="office-flag">🇬🇧</div>
+        <div class="office-city">London</div>
+        <div class="office-address">22 Bishopsgate, Level 14<br />London, EC2N 4BQ<br />United Kingdom</div>
+      </div>
+      <div class="office-card animate-on-scroll delay-2">
+        <div class="office-flag">🇦🇪</div>
+        <div class="office-city">Dubai</div>
+        <div class="office-address">DIFC, Gate Village<br />Dubai, UAE</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FAQ -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Common Questions</div>
+      <h2 class="section-title animate-on-scroll">Frequently <span class="gradient-text">Asked</span></h2>
+    </div>
+
+    <div class="faq-list" style="max-width:760px;margin:0 auto;">
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How long does a typical project take?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Project timelines vary significantly by scope. A simple landing page or MVP might take 4–8 weeks. A full-featured web application typically takes 3–6 months. Enterprise platforms can take 6–18 months. We'll give you a detailed timeline estimate after our initial discovery conversation.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item animate-on-scroll delay-1">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What does a project with ITCONIC cost?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Our project budgets start at $15,000 for focused engagements and scale to $500,000+ for large enterprise programs. We offer fixed-price engagements for well-scoped projects and time-and-materials for more exploratory work. We'll recommend the right model for your situation.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item animate-on-scroll delay-2">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you sign NDAs?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. We're happy to sign a mutual NDA before you share any confidential project details. Your ideas and business information are always protected. Just let us know and we'll send over our standard NDA for review.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item animate-on-scroll delay-3">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How do you handle project communication and updates?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            You'll have a dedicated project manager as your single point of contact. We work in 2-week sprints with live demos at the end of each sprint. Daily async updates in Slack/Teams, weekly status calls, and a real-time dashboard so you always know exactly where things stand.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you provide ongoing support after launch?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes. We offer flexible support and maintenance packages ranging from a 3-month warranty period (included in all projects) to ongoing managed services with 24/7 monitoring, regular updates, and proactive performance optimization.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item animate-on-scroll delay-1">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Can you work with our existing team?
+          <div class="faq-toggle">+</div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. Many of our engagements are collaborative — we embed with client engineering teams, provide specialist expertise, and work within your existing processes and tools. We're happy to work as a dedicated agency or as an extension of your in-house team.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon">IT</div>
+          <span class="nav-logo-text">ITCONIC</span>
+        </a>
+        <p>Pioneering the future through intelligent technology. We build digital products that transform businesses.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">gh</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="news.html">Blog & News</a></li>
+          <li><a href="contact.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Web Development</a></li>
+          <li><a href="services.html">Mobile Apps</a></li>
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Cloud Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@itconic.com">hello@itconic.com</a></li>
+          <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+          <li><a href="#">San Francisco, CA</a></li>
+          <li><a href="contact.html">Get in Touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ITCONIC. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // FAQ Toggle
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    // Form submission
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+
+        setTimeout(() => {
+          form.style.display = 'none';
+          document.getElementById('formSuccess').style.display = 'block';
+        }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>

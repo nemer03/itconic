@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About ITCONIC - Our story, mission, vision, and the team behind the innovation." />
+  <title>About Us | ITCONIC</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%238b5cf6'/><text y='.9em' font-size='70' x='15'>IT</text></svg>" />
+  <style>
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .mission-vision {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .mission-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .mission-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .mission-card:hover::before { opacity: 0.04; }
+
+    .mission-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .mission-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .mission-text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Values */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .value-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: var(--transition);
+    }
+
+    .value-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+
+    .value-icon { font-size: 32px; margin-bottom: 14px; }
+    .value-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .value-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-family: 'Inter', sans-serif; }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border-glow), transparent);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover { border-color: var(--border-glow); }
+
+    .timeline-item.right .timeline-content { grid-column: 3; }
+    .timeline-item.left .timeline-content { grid-column: 1; grid-row: 1; }
+
+    .timeline-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 20px rgba(139,92,246,0.4);
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .timeline-year {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-purple);
+      margin-bottom: 8px;
+    }
+
+    .timeline-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .timeline-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-family: 'Inter', sans-serif; }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .team-card:hover::after { transform: scaleX(1); }
+
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: white;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 30px rgba(139,92,246,0.3);
+    }
+
+    .team-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .team-role { font-size: 12px; color: var(--accent-purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .team-bio { font-size: 12px; color: var(--text-secondary); line-height: 1.6; font-family: 'Inter', sans-serif; margin-bottom: 16px; }
+
+    .team-social {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .team-social a {
+      width: 30px;
+      height: 30px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+
+    .team-social a:hover {
+      background: var(--gradient-primary);
+      border-color: transparent;
+    }
+
+    /* Story visual */
+    .story-visual {
+      position: relative;
+    }
+
+    .story-image-main {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #0f172a, #1e1b4b);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 100px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .story-image-main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(139,92,246,0.3), transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(59,130,246,0.3), transparent 50%);
+    }
+
+    .story-float-1 {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+
+    .story-float-2 {
+      position: absolute;
+      top: 20px;
+      right: -20px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .mission-vision { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .timeline::before { left: 28px; }
+      .timeline-item { grid-template-columns: 48px 1fr; }
+      .timeline-dot { grid-column: 1; }
+      .timeline-content { grid-column: 2 !important; grid-row: 1 !important; }
+      .timeline-item.right .timeline-content { grid-column: 2; }
+    }
+
+    @media (max-width: 600px) {
+      .values-grid, .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">IT</div>
+      <span class="nav-logo-text">ITCONIC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html" class="active">About</a>
+    <a href="news.html">News</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="page-hero-content">
+      <div class="hero-badge" style="margin:0 auto 24px;width:fit-content;">
+        <span class="hero-badge-dot"></span>
+        Est. 2016 · San Francisco
+      </div>
+      <h1>About <span class="gradient-text">ITCONIC</span></h1>
+      <p>A team of builders, dreamers, and engineers — united by a mission to shape the digital future.</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>About Us</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section style="padding:60px 5%;">
+    <div class="stats-grid animate-on-scroll">
+      <div class="stat-item">
+        <div class="stat-number" data-target="10" data-suffix="+">0+</div>
+        <div class="stat-label">Years of Innovation</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="50" data-suffix="+">0+</div>
+        <div class="stat-label">Expert Engineers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="180" data-suffix="+">0+</div>
+        <div class="stat-label">Global Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="340" data-suffix="+">0+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section>
+    <div class="story-grid">
+      <div>
+        <div class="section-label animate-on-scroll">Our Story</div>
+        <h2 class="section-title animate-on-scroll">
+          Born From <span class="gradient-text">Passion</span>,<br /> Driven by Purpose
+        </h2>
+        <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:20px;font-family:'Inter',sans-serif;" class="animate-on-scroll">
+          ITCONIC was founded in 2016 by a group of engineers who believed technology should be more than functional — it should be transformative. Starting as a small web development shop in San Francisco, we've grown into a full-service technology partner serving clients across 45+ countries.
+        </p>
+        <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:32px;font-family:'Inter',sans-serif;" class="animate-on-scroll delay-1">
+          Today, we stand at the intersection of design, engineering, and artificial intelligence. Every project we take on is an opportunity to push boundaries, challenge assumptions, and deliver something the world hasn't seen before.
+        </p>
+        <a href="contact.html" class="btn btn-primary animate-on-scroll delay-2">Work With Us →</a>
+      </div>
+      <div class="story-visual animate-on-scroll">
+        <div class="story-image-main">
+          <span style="position:relative;z-index:1;">🚀</span>
+        </div>
+        <div class="story-float-1">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Founded</div>
+          <div style="font-size:22px;font-weight:700;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">2016</div>
+          <div style="font-size:11px;color:var(--text-muted);">San Francisco, CA</div>
+        </div>
+        <div class="story-float-2">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Awards</div>
+          <div style="font-size:22px;font-weight:700;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">24+</div>
+          <div style="font-size:11px;color:var(--text-muted);">Industry recognitions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- MISSION & VISION -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">What Drives Us</div>
+      <h2 class="section-title animate-on-scroll">Mission & <span class="gradient-text">Vision</span></h2>
+    </div>
+
+    <div class="mission-vision">
+      <div class="mission-card animate-on-scroll">
+        <span class="mission-icon">🎯</span>
+        <div class="mission-title">Our Mission</div>
+        <p class="mission-text">
+          To empower businesses worldwide with cutting-edge technology solutions that are intelligent, scalable, and human-centered. We build digital products that don't just solve today's problems — they anticipate tomorrow's opportunities.
+        </p>
+      </div>
+      <div class="mission-card animate-on-scroll delay-1">
+        <span class="mission-icon">🔭</span>
+        <div class="mission-title">Our Vision</div>
+        <p class="mission-text">
+          A world where every business, regardless of size, has access to the same caliber of technology that powers the world's largest organizations. We envision intelligent, accessible, and ethical technology as the foundation of a better digital future.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">What We Stand For</div>
+      <h2 class="section-title animate-on-scroll">Our Core <span class="gradient-text">Values</span></h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card animate-on-scroll">
+        <div class="value-icon">💡</div>
+        <div class="value-title">Innovation First</div>
+        <p class="value-text">We explore emerging technologies not as trends, but as tools to solve real problems. Every project is an opportunity to invent something new.</p>
+      </div>
+      <div class="value-card animate-on-scroll delay-1">
+        <div class="value-icon">🤝</div>
+        <div class="value-title">Client Partnership</div>
+        <p class="value-text">We don't just deliver code — we become strategic partners who invest deeply in understanding and growing our clients' businesses.</p>
+      </div>
+      <div class="value-card animate-on-scroll delay-2">
+        <div class="value-icon">✨</div>
+        <div class="value-title">Quality Obsession</div>
+        <p class="value-text">We refuse to ship anything we wouldn't be proud to use ourselves. Every pixel, every line of code, every interaction matters.</p>
+      </div>
+      <div class="value-card animate-on-scroll delay-1">
+        <div class="value-icon">🌍</div>
+        <div class="value-title">Ethical Tech</div>
+        <p class="value-text">We build responsibly — privacy-first, accessible design, and AI systems that are transparent, fair, and accountable.</p>
+      </div>
+      <div class="value-card animate-on-scroll delay-2">
+        <div class="value-icon">📈</div>
+        <div class="value-title">Growth Mindset</div>
+        <p class="value-text">We invest in continuous learning, bold experiments, and the courage to challenge the status quo — for our team and our clients.</p>
+      </div>
+      <div class="value-card animate-on-scroll delay-3">
+        <div class="value-icon">⚡</div>
+        <div class="value-title">Speed & Precision</div>
+        <p class="value-text">We move fast without breaking things. Our agile process delivers results quickly while maintaining uncompromising standards.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TIMELINE -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Our Journey</div>
+      <h2 class="section-title animate-on-scroll">Milestones That <span class="gradient-text">Shaped Us</span></h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2016</div>
+          <div class="timeline-title">The Beginning</div>
+          <p class="timeline-text">Founded by 3 engineers in a San Francisco garage. Our first project: a web app for a local restaurant chain. We knew it was just the start.</p>
+        </div>
+        <div class="timeline-dot">🚀</div>
+        <div></div>
+      </div>
+
+      <div class="timeline-item right animate-on-scroll">
+        <div></div>
+        <div class="timeline-dot">📱</div>
+        <div class="timeline-content">
+          <div class="timeline-year">2018</div>
+          <div class="timeline-title">Mobile Expansion</div>
+          <p class="timeline-text">Expanded into mobile development. Delivered our first enterprise mobile app with 100K+ users. Team grew to 15 engineers.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-title">AI Practice Launch</div>
+          <p class="timeline-text">Launched our AI & Machine Learning division. Partnered with 3 Fortune 500 companies on AI transformation projects.</p>
+        </div>
+        <div class="timeline-dot">🤖</div>
+        <div></div>
+      </div>
+
+      <div class="timeline-item right animate-on-scroll">
+        <div></div>
+        <div class="timeline-dot">🌍</div>
+        <div class="timeline-content">
+          <div class="timeline-year">2022</div>
+          <div class="timeline-title">Global Scale</div>
+          <p class="timeline-text">Opened offices in London and Dubai. Reached 100+ global clients and 200+ project deliveries. Team hit 40 engineers.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-title">Industry Recognition</div>
+          <p class="timeline-text">Named among Top 10 Tech Companies to Watch by TechCrunch. Launched our open-source AI toolkit used by 50K+ developers.</p>
+        </div>
+        <div class="timeline-dot">🏆</div>
+        <div></div>
+      </div>
+
+      <div class="timeline-item right animate-on-scroll">
+        <div></div>
+        <div class="timeline-dot">⭐</div>
+        <div class="timeline-content">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">Today & Beyond</div>
+          <p class="timeline-text">50+ engineers, 340+ projects, 45+ countries. We're just getting started. The best chapter is the one we're writing now.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TEAM -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">The People</div>
+      <h2 class="section-title animate-on-scroll">Meet the <span class="gradient-text">Team</span></h2>
+      <p class="section-subtitle animate-on-scroll">The brilliant minds behind every project, solution, and innovation.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card animate-on-scroll">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6);">AK</div>
+        <div class="team-name">Adam Karim</div>
+        <div class="team-role">CEO & Co-Founder</div>
+        <p class="team-bio">10+ years leading tech teams. Former Google engineer. Passionate about AI and building products that matter.</p>
+        <div class="team-social">
+          <a href="#">𝕏</a>
+          <a href="#">in</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-1">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">SR</div>
+        <div class="team-name">Sofia Reyes</div>
+        <div class="team-role">CTO & Co-Founder</div>
+        <p class="team-bio">Full-stack architect and AI specialist. MIT alumna. Built systems serving millions of users at scale.</p>
+        <div class="team-social">
+          <a href="#">𝕏</a>
+          <a href="#">gh</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-2">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">JL</div>
+        <div class="team-name">James Liu</div>
+        <div class="team-role">Head of Design</div>
+        <p class="team-bio">Award-winning UX designer with 8+ years crafting digital experiences for global brands and startups.</p>
+        <div class="team-social">
+          <a href="#">in</a>
+          <a href="#">🎨</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-3">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#10b981,#06b6d4);">MN</div>
+        <div class="team-name">Maya Nour</div>
+        <div class="team-role">Head of AI/ML</div>
+        <p class="team-bio">Former DeepMind researcher. PhD in ML. Leads our AI practice with a focus on practical, ethical AI systems.</p>
+        <div class="team-social">
+          <a href="#">𝕏</a>
+          <a href="#">gh</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#ec4899,#a855f7);">RP</div>
+        <div class="team-name">Ravi Patel</div>
+        <div class="team-role">Cloud Architect</div>
+        <p class="team-bio">AWS Certified Solutions Architect. Designed cloud infrastructure for companies with $1B+ in revenue.</p>
+        <div class="team-social">
+          <a href="#">in</a>
+          <a href="#">gh</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-1">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#f59e0b,#10b981);">LK</div>
+        <div class="team-name">Lena Kim</div>
+        <div class="team-role">Lead Mobile Dev</div>
+        <p class="team-bio">Flutter & React Native expert. Built apps with 5M+ combined downloads. Passionate about delightful UX.</p>
+        <div class="team-social">
+          <a href="#">gh</a>
+          <a href="#">in</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-2">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#3b82f6,#10b981);">OS</div>
+        <div class="team-name">Omar Saleh</div>
+        <div class="team-role">Lead Backend Dev</div>
+        <p class="team-bio">Microservices and distributed systems specialist. Loves tackling high-scale engineering challenges.</p>
+        <div class="team-social">
+          <a href="#">gh</a>
+          <a href="#">𝕏</a>
+        </div>
+      </div>
+
+      <div class="team-card animate-on-scroll delay-3">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#a855f7,#ec4899);">ZW</div>
+        <div class="team-name">Zoe Wang</div>
+        <div class="team-role">Product Manager</div>
+        <p class="team-bio">Former Airbnb PM. Bridges strategy, design, and engineering to ship products users can't live without.</p>
+        <div class="team-social">
+          <a href="#">in</a>
+          <a href="#">𝕏</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="cta-box animate-on-scroll">
+      <h2 class="section-title" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px;">
+        Join the <span class="gradient-text">ITCONIC</span> Family
+      </h2>
+      <p style="color:var(--text-secondary);font-size:16px;margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;font-family:'Inter',sans-serif;line-height:1.7;">
+        Whether you're a client, a collaborator, or a talented engineer looking for their next challenge — let's connect.
+      </p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+        <a href="contact.html" class="btn btn-secondary">View Open Roles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon">IT</div>
+          <span class="nav-logo-text">ITCONIC</span>
+        </a>
+        <p>Pioneering the future through intelligent technology. We build digital products that transform businesses.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">gh</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="news.html">Blog & News</a></li>
+          <li><a href="contact.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Web Development</a></li>
+          <li><a href="services.html">Mobile Apps</a></li>
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Cloud Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@itconic.com">hello@itconic.com</a></li>
+          <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+          <li><a href="contact.html">Get in Touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ITCONIC. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
