@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ITCONIC Services - Web Development, Mobile Apps, AI Solutions, Cloud Services, UI/UX Design." />
+  <title>Services | ITCONIC</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%238b5cf6'/><text y='.9em' font-size='70' x='15'>IT</text></svg>" />
+  <style>
+    .service-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .service-detail:last-child { border-bottom: none; }
+
+    .service-detail.reverse { direction: rtl; }
+    .service-detail.reverse > * { direction: ltr; }
+
+    .service-visual {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-visual-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.3;
+    }
+
+    .service-visual-icon {
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 30px rgba(139,92,246,0.5));
+    }
+
+    .service-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .service-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .service-feature::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: rgba(139,92,246,0.2);
+      border-radius: 50%;
+      color: #a78bfa;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .service-number {
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.2;
+      position: absolute;
+      top: -20px;
+      right: 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+    }
+
+    .process-step {
+      padding: 24px;
+      text-align: center;
+    }
+
+    .process-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      color: white;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 20px rgba(139,92,246,0.3);
+    }
+
+    .process-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .process-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-family: 'Inter', sans-serif; }
+
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin: 4px;
+      transition: var(--transition);
+    }
+
+    .tech-badge:hover {
+      border-color: var(--border-glow);
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 900px) {
+      .service-detail { grid-template-columns: 1fr; gap: 40px; }
+      .service-detail.reverse { direction: ltr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .process-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">IT</div>
+      <span class="nav-logo-text">ITCONIC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+    <a href="news.html">News</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="page-hero-content">
+      <div class="hero-badge" style="margin:0 auto 24px;width:fit-content;">
+        <span class="hero-badge-dot"></span>
+        What We Offer
+      </div>
+      <h1>Our <span class="gradient-text">Services</span></h1>
+      <p>End-to-end technology solutions designed to accelerate your business in the digital era.</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Services</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE CARDS OVERVIEW -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">Full Stack Capabilities</div>
+      <h2 class="section-title animate-on-scroll">Everything You Need, <span class="gradient-text">Under One Roof</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card animate-on-scroll" style="text-align:center;">
+        <div class="icon-box icon-box-purple" style="margin:0 auto 20px;">🌐</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">Web Development</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">From landing pages to enterprise platforms</p>
+      </div>
+      <div class="card animate-on-scroll delay-1" style="text-align:center;">
+        <div class="icon-box icon-box-blue" style="margin:0 auto 20px;">📱</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">Mobile Development</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">iOS, Android & cross-platform apps</p>
+      </div>
+      <div class="card animate-on-scroll delay-2" style="text-align:center;">
+        <div class="icon-box icon-box-cyan" style="margin:0 auto 20px;">🤖</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">AI & Machine Learning</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">Custom AI models and integrations</p>
+      </div>
+      <div class="card animate-on-scroll delay-1" style="text-align:center;">
+        <div class="icon-box icon-box-green" style="margin:0 auto 20px;">☁️</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">Cloud Services</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">AWS, Azure & Google Cloud expertise</p>
+      </div>
+      <div class="card animate-on-scroll delay-2" style="text-align:center;">
+        <div class="icon-box icon-box-pink" style="margin:0 auto 20px;">🎨</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">UI/UX Design</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">Beautiful, user-centered interfaces</p>
+      </div>
+      <div class="card animate-on-scroll delay-3" style="text-align:center;">
+        <div class="icon-box icon-box-orange" style="margin:0 auto 20px;">🔒</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;">Cybersecurity</div>
+        <p style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;">Protect your digital assets end-to-end</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- DETAILED SERVICES -->
+  <section>
+    <!-- Web Dev -->
+    <div class="service-detail animate-on-scroll">
+      <div>
+        <div class="section-label">01</div>
+        <h2 class="section-title">Web <span class="gradient-text">Development</span></h2>
+        <p class="section-subtitle" style="margin-bottom:24px;">
+          We craft high-performance web applications using cutting-edge technologies. From complex SaaS platforms to elegant marketing sites, every project is built for speed, scalability, and beauty.
+        </p>
+        <div class="service-features">
+          <div class="service-feature">React, Next.js, Vue.js & Angular expertise</div>
+          <div class="service-feature">Node.js, Python, Go & Java backends</div>
+          <div class="service-feature">PostgreSQL, MongoDB & Redis data layers</div>
+          <div class="service-feature">REST APIs, GraphQL & WebSocket integration</div>
+          <div class="service-feature">Performance optimization & Core Web Vitals</div>
+          <div class="service-feature">SEO-first architecture from the ground up</div>
+        </div>
+        <div style="margin-top:32px;">
+          <div class="tech-badge">⚛️ React</div>
+          <div class="tech-badge">▲ Next.js</div>
+          <div class="tech-badge">🐍 Python</div>
+          <div class="tech-badge">🐳 Docker</div>
+          <div class="tech-badge">🔷 TypeScript</div>
+        </div>
+      </div>
+      <div class="service-visual" style="background:linear-gradient(135deg,#0f172a,#1e1b4b);">
+        <div class="service-visual-bg" style="background:radial-gradient(circle at 30% 70%, #8b5cf6, transparent 60%),radial-gradient(circle at 70% 30%, #3b82f6, transparent 60%);"></div>
+        <span class="service-visual-icon">🌐</span>
+      </div>
+    </div>
+
+    <!-- Mobile -->
+    <div class="service-detail reverse animate-on-scroll">
+      <div>
+        <div class="section-label">02</div>
+        <h2 class="section-title">Mobile App <span class="gradient-text">Development</span></h2>
+        <p class="section-subtitle" style="margin-bottom:24px;">
+          Native and cross-platform mobile experiences that users love. We build apps that are not just functional, but beautifully crafted and performance-optimized for every device.
+        </p>
+        <div class="service-features">
+          <div class="service-feature">iOS & Android native development</div>
+          <div class="service-feature">Flutter & React Native cross-platform</div>
+          <div class="service-feature">Offline-first architecture with sync</div>
+          <div class="service-feature">Push notifications & real-time features</div>
+          <div class="service-feature">App Store & Google Play optimization</div>
+          <div class="service-feature">Analytics, A/B testing & crash reporting</div>
+        </div>
+        <div style="margin-top:32px;">
+          <div class="tech-badge">🐦 Flutter</div>
+          <div class="tech-badge">⚛️ React Native</div>
+          <div class="tech-badge">🍎 Swift</div>
+          <div class="tech-badge">🤖 Kotlin</div>
+          <div class="tech-badge">🔥 Firebase</div>
+        </div>
+      </div>
+      <div class="service-visual" style="background:linear-gradient(135deg,#0c1445,#1e3a5f);">
+        <div class="service-visual-bg" style="background:radial-gradient(circle at 30% 70%, #06b6d4, transparent 60%),radial-gradient(circle at 70% 30%, #3b82f6, transparent 60%);"></div>
+        <span class="service-visual-icon">📱</span>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="service-detail animate-on-scroll">
+      <div>
+        <div class="section-label">03</div>
+        <h2 class="section-title">AI <span class="gradient-text">Solutions</span></h2>
+        <p class="section-subtitle" style="margin-bottom:24px;">
+          From intelligent automation to predictive analytics, we integrate AI that delivers measurable business value. Custom LLM-powered tools, computer vision, and data-driven decision systems.
+        </p>
+        <div class="service-features">
+          <div class="service-feature">Custom LLM fine-tuning & RAG pipelines</div>
+          <div class="service-feature">Computer vision & image recognition</div>
+          <div class="service-feature">NLP, chatbots & conversational AI</div>
+          <div class="service-feature">Predictive analytics & anomaly detection</div>
+          <div class="service-feature">AI-powered automation workflows</div>
+          <div class="service-feature">MLOps & model deployment pipelines</div>
+        </div>
+        <div style="margin-top:32px;">
+          <div class="tech-badge">🤗 HuggingFace</div>
+          <div class="tech-badge">🔥 PyTorch</div>
+          <div class="tech-badge">🧠 OpenAI API</div>
+          <div class="tech-badge">📊 TensorFlow</div>
+          <div class="tech-badge">🐍 LangChain</div>
+        </div>
+      </div>
+      <div class="service-visual" style="background:linear-gradient(135deg,#1a0533,#3b0764);">
+        <div class="service-visual-bg" style="background:radial-gradient(circle at 30% 70%, #a855f7, transparent 60%),radial-gradient(circle at 70% 30%, #8b5cf6, transparent 60%);"></div>
+        <span class="service-visual-icon">🤖</span>
+      </div>
+    </div>
+
+    <!-- Cloud -->
+    <div class="service-detail reverse animate-on-scroll">
+      <div>
+        <div class="section-label">04</div>
+        <h2 class="section-title">Cloud <span class="gradient-text">Services</span></h2>
+        <p class="section-subtitle" style="margin-bottom:24px;">
+          Migrate, modernize, and manage your infrastructure in the cloud. We architect scalable, resilient systems on AWS, Azure, and Google Cloud that grow with your business demands.
+        </p>
+        <div class="service-features">
+          <div class="service-feature">Multi-cloud architecture & strategy</div>
+          <div class="service-feature">Kubernetes & container orchestration</div>
+          <div class="service-feature">CI/CD pipelines & DevOps automation</div>
+          <div class="service-feature">Infrastructure as Code (Terraform)</div>
+          <div class="service-feature">Database clustering & auto-scaling</div>
+          <div class="service-feature">24/7 monitoring & incident response</div>
+        </div>
+        <div style="margin-top:32px;">
+          <div class="tech-badge">☁️ AWS</div>
+          <div class="tech-badge">🔵 Azure</div>
+          <div class="tech-badge">🌩 GCP</div>
+          <div class="tech-badge">⚓ Kubernetes</div>
+          <div class="tech-badge">🏗 Terraform</div>
+        </div>
+      </div>
+      <div class="service-visual" style="background:linear-gradient(135deg,#042f2e,#065f46);">
+        <div class="service-visual-bg" style="background:radial-gradient(circle at 30% 70%, #10b981, transparent 60%),radial-gradient(circle at 70% 30%, #06b6d4, transparent 60%);"></div>
+        <span class="service-visual-icon">☁️</span>
+      </div>
+    </div>
+
+    <!-- UI/UX -->
+    <div class="service-detail animate-on-scroll">
+      <div>
+        <div class="section-label">05</div>
+        <h2 class="section-title">UI/UX <span class="gradient-text">Design</span></h2>
+        <p class="section-subtitle" style="margin-bottom:24px;">
+          Design that converts. We create user-centered interfaces grounded in research, data, and creativity — from early wireframes to polished, pixel-perfect final designs.
+        </p>
+        <div class="service-features">
+          <div class="service-feature">User research & persona development</div>
+          <div class="service-feature">Information architecture & user flows</div>
+          <div class="service-feature">Wireframing & interactive prototyping</div>
+          <div class="service-feature">Design systems & component libraries</div>
+          <div class="service-feature">Accessibility (WCAG 2.2 AA) compliance</div>
+          <div class="service-feature">Usability testing & iteration cycles</div>
+        </div>
+        <div style="margin-top:32px;">
+          <div class="tech-badge">🎨 Figma</div>
+          <div class="tech-badge">🖥 Framer</div>
+          <div class="tech-badge">✏️ Sketch</div>
+          <div class="tech-badge">📐 Principle</div>
+          <div class="tech-badge">🎯 Adobe XD</div>
+        </div>
+      </div>
+      <div class="service-visual" style="background:linear-gradient(135deg,#2d1344,#4a1942);">
+        <div class="service-visual-bg" style="background:radial-gradient(circle at 30% 70%, #ec4899, transparent 60%),radial-gradient(circle at 70% 30%, #a855f7, transparent 60%);"></div>
+        <span class="service-visual-icon">🎨</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROCESS -->
+  <section>
+    <div class="text-center" style="margin-bottom:60px;">
+      <div class="section-label animate-on-scroll">How We Work</div>
+      <h2 class="section-title animate-on-scroll">Our <span class="gradient-text">Process</span></h2>
+      <p class="section-subtitle animate-on-scroll">A proven methodology that delivers results on time and on budget.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step animate-on-scroll">
+        <div class="process-number">01</div>
+        <div class="process-title">Discovery</div>
+        <p class="process-desc">Deep dive into your goals, users, and technical requirements through workshops and research.</p>
+      </div>
+      <div class="process-step animate-on-scroll delay-1">
+        <div class="process-number">02</div>
+        <div class="process-title">Design</div>
+        <p class="process-desc">Wireframes, prototypes, and design systems that align with your brand and user needs.</p>
+      </div>
+      <div class="process-step animate-on-scroll delay-2">
+        <div class="process-number">03</div>
+        <div class="process-title">Build</div>
+        <p class="process-desc">Agile development sprints with weekly demos, transparent progress, and quality gates.</p>
+      </div>
+      <div class="process-step animate-on-scroll delay-3">
+        <div class="process-number">04</div>
+        <div class="process-title">Launch & Grow</div>
+        <p class="process-desc">Seamless deployment, monitoring, and ongoing optimization post-launch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="cta-box animate-on-scroll">
+      <h2 class="section-title" style="font-size:clamp(28px,4vw,48px);margin-bottom:16px;">
+        Ready to Start Your <span class="gradient-text">Project?</span>
+      </h2>
+      <p style="color:var(--text-secondary);font-size:16px;margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;font-family:'Inter',sans-serif;line-height:1.7;">
+        Tell us about your challenge. We'll get back to you within 24 hours with a custom proposal.
+      </p>
+      <a href="contact.html" class="btn btn-primary" style="font-size:16px;padding:16px 36px;">Get a Free Consultation →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon">IT</div>
+          <span class="nav-logo-text">ITCONIC</span>
+        </a>
+        <p>Pioneering the future through intelligent technology. We build digital products that transform businesses.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link">𝕏</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">gh</a>
+          <a href="#" class="social-link">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="news.html">Blog & News</a></li>
+          <li><a href="contact.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Web Development</a></li>
+          <li><a href="services.html">Mobile Apps</a></li>
+          <li><a href="services.html">AI Solutions</a></li>
+          <li><a href="services.html">Cloud Services</a></li>
+          <li><a href="services.html">UI/UX Design</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@itconic.com">hello@itconic.com</a></li>
+          <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+          <li><a href="#">San Francisco, CA</a></li>
+          <li><a href="contact.html">Get in Touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ITCONIC. All rights reserved.</span>
+      <span>Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
